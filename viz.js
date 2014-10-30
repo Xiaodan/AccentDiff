@@ -23,6 +23,8 @@ function drawWaveForm(datafile, name, cssClass){
 			.append("div")
 			.classed("container", true);
 		container.append("h3")
+			.classed("area", true)
+			.classed(cssClass, true)
 			.text(name+": "+cssClass)
 
 

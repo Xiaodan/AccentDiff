@@ -10,11 +10,16 @@
 
 .area {
 fill: steelblue;
-opacity: 0.4;
+background-color: steelblue;
+}
+
+.waveform .area{
+	opacity: 0.4;
 }
 
 .base{
 fill: #dd3344;
+background-color: #dd3344;
 }
 
 audio{

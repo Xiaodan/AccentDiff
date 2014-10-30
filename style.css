@@ -2,6 +2,12 @@
 	clear: both;
 	display: block;
 }
+
+.container {
+	display: inline-block;
+	padding: 10px 20px;
+}
+
 .area {
 fill: steelblue;
 opacity: 0.4;

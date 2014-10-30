@@ -2,6 +2,7 @@ AccentDiff
 ==========
 
 Compare the accent of different countries and regions. Data set from http://accent.gmu.edu
+Description of the project can be seen at: https://www.youtube.com/watch?v=tgxDyflGskc
 
 Add the following packages:
 ```sh

@@ -1,0 +1,29 @@
+{
+  "name": "AccentDiff",
+  "version": "1.0.0",
+  "homepage": "https://github.com/napsternxg/AccentDiff",
+  "authors": [
+    "Shubhanshu Mishra <shubhanshumishra@gmail.com>"
+  ],
+  "description": "Visualize the different accent of people. Code hosted at: https://github.com/napsternxg/AccentDiff",
+  "main": "index.html",
+  "keywords": [
+    "audio",
+    "waveform",
+    "visulization",
+    "d3"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "d3": "~3.4.13",
+    "waveform-data": "~1.4.4"
+  }
+}

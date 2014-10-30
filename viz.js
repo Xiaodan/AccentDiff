@@ -33,7 +33,11 @@ function drawWaveForm(datafile, name, cssClass){
 		var offsetX = 100;
 		//nextY += 3*offsetX;
 
-		x.domain([0, waveform.adapter.length]).rangeRound([0, 1024]);
+		//x.domain([0, waveform.adapter.length]).rangeRound([0, 1024]);
+		//All waveforms of same length
+		x.domain([0, 2000]).rangeRound([0, 1024]);
+		//y.domain([d3.min(waveform.min), d3.max(waveform.max)]).rangeRound([offsetX, -offsetX]);
+		// All waveform center on same horizontal line.
 		y.domain([-d3.max(waveform.max), d3.max(waveform.max)]).rangeRound([offsetX, -offsetX]);
 
 		var area = d3.svg.area()

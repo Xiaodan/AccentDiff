@@ -8,6 +8,8 @@ $("#update").on("click", function (argument) {
 	// body...
 	var lang1 = $("#lang1").val();
 	var lang2 = $("#lang2").val();
+	x = null;
+	y = null;
 	console.log(lang1, lang2);
 	$(".waveform")[0].innerHTML = "";
 	$(".container").remove();

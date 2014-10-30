@@ -1,7 +1,10 @@
 var layout = d3.select("body").append("svg");
 	layout.attr("width", 800)
-		.attr("height", 200)
+		.attr("height", 250)
 		.classed("waveform", true);
+
+var x = null;
+var y = null;
 
 /*var layout = container
 			.append("svg")
@@ -30,17 +33,17 @@ function drawWaveForm(datafile, name, cssClass){
 
 		var graph = layout.append("g")
 			//.attr("transform", function(){ return "translate(0, "+nextY+")"; });
-		var x = d3.scale.linear();
-		var y = d3.scale.linear();
 		var offsetX = 100;
-		//nextY += 3*offsetX;
+		if(x == null || y == null){
+			/**
+			* Use same x and y range for both waveforms.
+			*/
+			x = d3.scale.linear();
+			y = d3.scale.linear();
+			x.domain([0, 2000]).rangeRound([0, 1024]);
+			y.domain([-d3.max(waveform.max), d3.max(waveform.max)]).rangeRound([offsetX, -offsetX]);
 
-		//x.domain([0, waveform.adapter.length]).rangeRound([0, 1024]);
-		//All waveforms of same length
-		x.domain([0, 2000]).rangeRound([0, 1024]);
-		//y.domain([d3.min(waveform.min), d3.max(waveform.max)]).rangeRound([offsetX, -offsetX]);
-		// All waveform center on same horizontal line.
-		y.domain([-d3.max(waveform.max), d3.max(waveform.max)]).rangeRound([offsetX, -offsetX]);
+		}
 
 		var area = d3.svg.area()
 		  .x(function(d, i){ return x(i) })

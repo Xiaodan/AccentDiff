@@ -15,6 +15,10 @@ audio{
 	display: block;
 }
 
+.sample-text{
+	font-size: 14px;
+}
+
 .myButton {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;

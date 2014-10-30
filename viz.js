@@ -1,6 +1,6 @@
 var layout = d3.select("body").append("svg");
 	layout.attr("width", 800)
-		.attr("height", 300)
+		.attr("height", 200)
 		.classed("waveform", true);
 
 /*var layout = container

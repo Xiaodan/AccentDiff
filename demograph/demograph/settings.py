@@ -13,5 +13,9 @@ BOT_NAME = 'demograph'
 SPIDER_MODULES = ['demograph.spiders']
 NEWSPIDER_MODULE = 'demograph.spiders'
 
+ITEM_PIPELINES = {
+    'demograph.pipelines.DemographPipeline': 800,
+}
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'demograph (+http://www.yourdomain.com)'

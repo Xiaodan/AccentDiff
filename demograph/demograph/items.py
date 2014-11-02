@@ -20,5 +20,7 @@ class DemographItem(scrapy.Item):
     enlish_learning_method = scrapy.Field()
     english_residence = scrapy.Field()
     length_of_english_residence = scrapy.Field()
-    
+    audio_link = scrapy.Field()
+    unique_id = scrapy.Field()
+
     pass

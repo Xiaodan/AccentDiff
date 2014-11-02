@@ -8,21 +8,24 @@ class DemoSpider(scrapy.Spider):
     base_url = "http://accent.gmu.edu/browse_language.php?function=detail&speakerid="
     start_urls = []
     start_urls.append(base_url+"239")
-    
-
+    start_urls.append(base_url+"240")
+    start_urls.append(base_url+"241")
 
     def parse(self, response):
 
         item = DemographItem()
+        unique_id = str(response.xpath('//div[@id="translation"]/h5/em/text()').extract()[0])
         result = response.xpath('//ul[@class="bio"]/li')
         bio_data = result.xpath('em/following-sibling::text()').extract()
+        audio = str(response.xpath("//embed/@src").extract()[0])
+
         for i in range(0, len(bio_data)):
             bio_data[i] = str(bio_data[i]).strip()
         links = result.xpath('a/text()').extract()
+
         for i in range(0, len(links)):
             links[i] = str(links[i]).strip()
-        # print bio_data
-        # print links
+       
         item['birth_place'] = bio_data[0]
         item['native_language'] = links[1]
         item['other_language'] = bio_data[3]
@@ -33,8 +36,9 @@ class DemoSpider(scrapy.Spider):
         item['enlish_learning_method'] = bio_data[6]
         item['english_residence'] = bio_data[7]
         item['length_of_english_residence'] = bio_data[8] 
+        item['audio_link'] = audio
+        item['unique_id'] = unique_id
 
-        # print item
         yield item
        
 

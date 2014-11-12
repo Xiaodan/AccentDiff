@@ -7,9 +7,36 @@ class DemoSpider(scrapy.Spider):
     allowed_domains = ["accent.gmu.edu"]
     base_url = "http://accent.gmu.edu/browse_language.php?function=detail&speakerid="
     start_urls = []
-    start_urls.append(base_url+"239")
-    start_urls.append(base_url+"240")
-    start_urls.append(base_url+"241")
+    # India: tamil2, hindi2, poonchi1, kannada1
+    for i in ['429', '587', '425', '228']:
+        start_urls.append(base_url + i)
+    # China: mandarin2, cantonese2, mandarin6, taiwanese2
+    for i in ['257', '46', '261', '364']:
+        start_urls.append(base_url + i)
+    # United States: english32, english82, english105, english62
+    for i in ['91', '146', '407', '124']:
+        start_urls.append(base_url + i)
+    # Russia: tatar1, russian8, russian4, russian9
+    for i in ['368', '308', '304', '307']:
+        start_urls.append(base_url + i)
+    # Great Britain: english2, english108, english110, english306
+    for i in ['77', '419', '421', '1093']:
+        start_urls.append(base_url + i)
+    # Japan: japanese1, japanese7
+    for i in ['221', '227']:
+        start_urls.append(base_url + i)
+    # Australia: english152, english84, english3
+    for i in ['529', '148', '88']:
+        start_urls.append(base_url + i)
+    # Brazil: portuguese10, portuguese1, portuguese9
+    for i in ['282', '281', '290']:
+        start_urls.append(base_url + i)
+    # Kenya: kiswahili3
+    for i in ['236']:
+        start_urls.append(base_url + i)
+    # Korea: korean2, korean3, korean4
+    for i in ['239', '240', '241']:
+        start_urls.append(base_url + i)
 
     def parse(self, response):
 

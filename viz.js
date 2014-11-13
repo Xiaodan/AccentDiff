@@ -12,41 +12,24 @@ var x = null;
 var y = null;
 
 var xAxis = null;
+var offsetX = 100;
 
-/*var layout = container
-			.append("svg")
-			.attr("width", 800)
-			.attr("height", 300);*/
-
-function drawWaveForm(datafile, name, cssClass){
-	d3.json(datafile, function (error, data) {
+function init (lang1_datafile, lang1_name, lang2_datafile, lang2_name) {
 	// body...
-		var filename = datafile.replace(/^.*\/|\.[^.]*$/g, '');
-		console.log(filename);
+	var data1 = null;
+	var data2 = null;
+	d3.json(lang1_datafile, function (error1, t_data1) {
+		data1 = WaveformData.create(t_data1);
+		d3.json(lang2_datafile, function (error2, t_data2) {
+			data2 = WaveformData.create(t_data2);
 
-		if(cssClass === undefined){
-			cssClass = "";
-		}
-		var waveform = WaveformData.create(data);
-		console.log(waveform.duration);
-		console.log(waveform);
-		var container = d3.select("body")
-			.append("div")
-			.classed("container", true);
-		container.append("h3")
-			.classed("area", true)
-			.classed(cssClass, true)
-			.text(name+": "+cssClass);
-		var offsetX = 100;
-		if(x == null || y == null){
-			/**
-			* Use same x and y range for both waveforms.
-			*/
+			var x_max = Math.max(data1.offset_length, data2.offset_length);
+			var y_max = Math.max(d3.max(data1.max), d3.max(data2.max));
 			x = d3.scale.linear();
 			y = d3.scale.linear();
-			x.domain([0, 2000])
+			x.domain([0, x_max])
 				.rangeRound([0, width]);
-			y.domain([-d3.max(waveform.max), d3.max(waveform.max)])
+			y.domain([-y_max, y_max])
 				.rangeRound([offsetX, -offsetX]);
 			xAxis = d3.svg.axis().scale(x).orient("top");
 			layout.append("g")
@@ -55,54 +38,77 @@ function drawWaveForm(datafile, name, cssClass){
 		    .call(xAxis);
 		    console.log("Drawing axis");
 
-		}
+			drawWaveForm(data1, lang1_datafile, lang1_name);
+			drawWaveForm(data2, lang2_datafile, lang2_name, "base");
+		});
 
-		var barHeight = 50;
-		var offsetY = (cssClass == "base") ? barHeight + margin_y: margin_y;
-		var bars = layout.append("g")
-			.attr("transform", function(){ 
-				return "translate("+margin_x+", "+(offsetY)+")";
-			});
-		var waveThreshold = 20;
-		var barArea = d3.svg.area()
-		  .x(function(d, i){ return x(i); })
-		  .y0(function(d, i){ return 0; })
-		  .y1(function(d, i){ return (d>waveThreshold) ? barHeight: 0; });
-
-		bars.append("path")
-			.datum(waveform.max)
-			.classed("area", true)
-			.classed(cssClass, true)
-			.attr("d", barArea);
-		//bars.call(xAxis);
-
-		var posWaveY = 1.5*offsetX + barHeight*2 + margin_y;
-		var graph = layout.append("g")
-			.attr("transform", function(){ 
-		  		return "translate("+margin_x+", "+posWaveY+")"; 
-		  	});
-			//.attr("transform", function(){ return "translate(0, "+nextY+")"; });
-
-		var area = d3.svg.area()
-		  .x(function(d, i){ return x(i) })
-		  .y0(function(d, i){ return y(waveform.min[i]) })
-		  .y1(function(d, i){ return y(d) });
-
-		graph.append("path")
-		  .datum(waveform.max)
-		  .classed("area", true)
-		  .classed(cssClass, true)
-		  .attr("d", area);
-
-
-		
-		var audioElm = container.append("audio")
-			.attr("controls", "controls");
-		audioElm.append("source")
-			.attr("src", "./DATA/MP3/"+filename+".mp3");
-			
 	});
 }
 
-drawWaveForm("./DATA/JSON/tamil2.json", "Native Tamil");
-drawWaveForm("./DATA/JSON/english2.json", "Native English", "base");
+function drawWaveForm(waveform, datafile, name, cssClass){
+	var filename = datafile.replace(/^.*\/|\.[^.]*$/g, '');
+	console.log(filename);
+
+	if(cssClass === undefined){
+		cssClass = "";
+	}
+	console.log(waveform.duration);
+	console.log(waveform);
+	var container = d3.select("body")
+		.append("div")
+		.classed("container", true);
+	container.append("h3")
+		.classed("area", true)
+		.classed(cssClass, true)
+		.text(name+": "+cssClass);
+
+	var barHeight = 50;
+	var offsetY = (cssClass == "base") ? barHeight + margin_y: margin_y;
+	var bars = layout.append("g")
+		.attr("transform", function(){ 
+			return "translate("+margin_x+", "+(offsetY)+")";
+		});
+	var waveThreshold = 0.2*(d3.max(waveform.max) - d3.min(waveform.max));
+	console.log("waveThreshold", waveThreshold, 
+		d3.max(waveform.max), d3.min(waveform.max));
+	var barArea = d3.svg.area()
+	  .x(function(d, i){ return x(i); })
+	  .y0(function(d, i){ return 0; })
+	  .y1(function(d, i){ return (d>waveThreshold) ? barHeight: 0; });
+
+	bars.append("path")
+		.datum(waveform.max)
+		.classed("area", true)
+		.classed(cssClass, true)
+		.attr("d", barArea);
+	//bars.call(xAxis);
+
+	var posWaveY = 1.5*offsetX + barHeight*2 + margin_y;
+	var graph = layout.append("g")
+		.attr("transform", function(){ 
+	  		return "translate("+margin_x+", "+posWaveY+")"; 
+	  	});
+		//.attr("transform", function(){ return "translate(0, "+nextY+")"; });
+
+	var area = d3.svg.area()
+	  .x(function(d, i){ return x(i) })
+	  .y0(function(d, i){ return y(waveform.min[i]) })
+	  .y1(function(d, i){ return y(d) });
+
+	graph.append("path")
+	  .datum(waveform.max)
+	  .classed("area", true)
+	  .classed(cssClass, true)
+	  .attr("d", area);
+
+
+	
+	var audioElm = container.append("audio")
+		.attr("controls", "controls");
+	audioElm.append("source")
+		.attr("src", "./DATA/MP3/"+filename+".mp3");
+		
+}
+
+init("./DATA/JSON/tamil2.json", "Native Tamil",
+	"./DATA/JSON/english2.json", "Native English");

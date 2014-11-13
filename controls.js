@@ -33,6 +33,6 @@ $("#update").on("click", function (argument) {
 	console.log(lang1, lang2);
 	$(".waveform")[0].innerHTML = "";
 	$(".container").remove();
-	drawWaveForm("./DATA/JSON/"+lang1+".json", "Native "+lang1.toUpperCase());
-	drawWaveForm("./DATA/JSON/"+lang2+".json", "Native "+lang2.toUpperCase(), "base");
+	init("./DATA/JSON/"+lang1+".json", "Native "+lang1.toUpperCase(),
+		"./DATA/JSON/"+lang2+".json", "Native "+lang2.toUpperCase());
 });

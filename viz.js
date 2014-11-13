@@ -12,7 +12,9 @@ var x = null;
 var y = null;
 
 var xAxis = null;
+var yAxis = null;
 var offsetX = 100;
+var barHeight = 50;
 
 function init (lang1_datafile, lang1_name, lang2_datafile, lang2_name) {
 	// body...
@@ -32,15 +34,28 @@ function init (lang1_datafile, lang1_name, lang2_datafile, lang2_name) {
 			y.domain([-y_max, y_max])
 				.rangeRound([offsetX, -offsetX]);
 			xAxis = d3.svg.axis().scale(x).orient("top");
+			yAxis = d3.svg.axis().scale(y).orient("left");
 			layout.append("g")
 		    .attr("class", "x axis")
 		    .attr("transform", "translate("+margin_x+"," + margin_y + ")")
 		    .call(xAxis);
+		    layout.append("g")
+		    .attr("class", "y axis")
+		    .attr("transform", "translate("+margin_x+"," +
+		     (offsetX*1.5+barHeight*2+margin_y) + ")")
+		    .call(yAxis);
 		    layout.append("text")      // text label for the x axis
 		        .attr("x", margin_x+(width/2.0) )
 		        .attr("y",  20)
 		        .style("text-anchor", "middle")
 		        .text("Time (milliseconds)");
+		    layout.append("text")      // text label for the x axis
+		        .attr("transform", "rotate(-90)")
+		        .attr("x", -(offsetX*1.5+barHeight*2+margin_y) )
+		        .attr("y",  0)
+		        .style("text-anchor", "middle")
+		        .attr("dy", "1em")
+		        .text("Waveform Max/Min");
 		    console.log("Drawing axis");
 
 			drawWaveForm(data1, lang1_datafile, lang1_name);
@@ -67,7 +82,6 @@ function drawWaveForm(waveform, datafile, name, cssClass){
 		.classed(cssClass, true)
 		.text(name+": "+cssClass);
 
-	var barHeight = 50;
 	var offsetY = (cssClass == "base") ? barHeight + margin_y: margin_y;
 	var bars = layout.append("g")
 		.attr("transform", function(){ 

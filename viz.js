@@ -1,6 +1,9 @@
+var width = 1024;
+var height = 400;
+
 var layout = d3.select("body").append("svg");
-	layout.attr("width", 800)
-		.attr("height", 250)
+	layout.attr("width", 1024)
+		.attr("height", 400)
 		.classed("waveform", true);
 
 var x = null;
@@ -28,11 +31,7 @@ function drawWaveForm(datafile, name, cssClass){
 		container.append("h3")
 			.classed("area", true)
 			.classed(cssClass, true)
-			.text(name+": "+cssClass)
-
-
-		var graph = layout.append("g")
-			//.attr("transform", function(){ return "translate(0, "+nextY+")"; });
+			.text(name+": "+cssClass);
 		var offsetX = 100;
 		if(x == null || y == null){
 			/**
@@ -40,23 +39,47 @@ function drawWaveForm(datafile, name, cssClass){
 			*/
 			x = d3.scale.linear();
 			y = d3.scale.linear();
-			x.domain([0, 2000]).rangeRound([0, 1024]);
+			x.domain([0, 2000]).rangeRound([0, width]);
 			y.domain([-d3.max(waveform.max), d3.max(waveform.max)]).rangeRound([offsetX, -offsetX]);
 
 		}
+
+		var bars = layout.append("g");
+		var waveThreshold = 20;
+		var barHeight = 50;
+		var offsetY = (cssClass == "base") ? barHeight + 10: 10;
+		var barArea = d3.svg.area()
+		  .x(function(d, i){ return x(i); })
+		  .y0(function(d, i){ return 0; })
+		  .y1(function(d, i){ return (d>20) ? 50: 0; });
+
+		bars.append("path")
+			.datum(waveform.max)
+			.attr("transform", function(){ 
+				return "translate(0, "+(offsetY)+")";
+			})
+			.classed("area", true)
+			.classed(cssClass, true)
+			.attr("d", barArea);
+
+
+		var graph = layout.append("g")
+			//.attr("transform", function(){ return "translate(0, "+nextY+")"; });
 
 		var area = d3.svg.area()
 		  .x(function(d, i){ return x(i) })
 		  .y0(function(d, i){ return y(waveform.min[i]) })
 		  .y1(function(d, i){ return y(d) });
 
-
 		graph.append("path")
 		  .datum(waveform.max)
-		  .attr("transform", function(){ return "translate(0, "+offsetX+")"; })
+		  .attr("transform", function(){ return "translate(0, "+2.5*offsetX+")"; })
 		  .classed("area", true)
 		  .classed(cssClass, true)
 		  .attr("d", area);
+
+
+		
 		var audioElm = container.append("audio")
 			.attr("controls", "controls");
 		audioElm.append("source")

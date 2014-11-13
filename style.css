@@ -8,6 +8,17 @@
 	padding: 10px 20px;
 }
 
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
 .area {
 fill: steelblue;
 background-color: steelblue;

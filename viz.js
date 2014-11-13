@@ -36,6 +36,11 @@ function init (lang1_datafile, lang1_name, lang2_datafile, lang2_name) {
 		    .attr("class", "x axis")
 		    .attr("transform", "translate("+margin_x+"," + margin_y + ")")
 		    .call(xAxis);
+		    layout.append("text")      // text label for the x axis
+		        .attr("x", margin_x+(width/2.0) )
+		        .attr("y",  20)
+		        .style("text-anchor", "middle")
+		        .text("Time (milliseconds)");
 		    console.log("Drawing axis");
 
 			drawWaveForm(data1, lang1_datafile, lang1_name);

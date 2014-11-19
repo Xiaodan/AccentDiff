@@ -76,7 +76,7 @@ function drawWaveForm(waveform, datafile, name, cssClass){
 	console.log(waveform);
 	var container = d3.select("body")
 		.append("div")
-		.classed("container", true);
+		.classed("container", true).classed("span5", true);
 	container.append("h3")
 		.classed("area", true)
 		.classed(cssClass, true)

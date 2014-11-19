@@ -1,50 +1,198 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>AccentDiff</title>
-	<link rel="stylesheet" href="chosen.min.css" />
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<div class="controls">
-	<select id="lang1" data-placeholder="Choose first native accent..." style="width:500px;" class="chosen-select form-control">
-	    <option value="english2">English</option>
-	    <option value="tamil2">Tamil</option>
-	    <option value="hindi2">Hindi</option>
-	    <option value="greek3">Greek</option>
-	    <option value="mandarin4">Mandarin</option>
-	</select>
-	<select id="lang2" data-placeholder="Choose second native accent..." style="width:500px;" class="chosen-select form-control">
-	    <option value="english2">English</option>
-	    <option value="tamil2" selected="selected">Tamil</option>
-	    <option value="hindi2">Hindi</option>
-	    <option value="greek3">Greek</option>
-	    <option value="mandarin4">Mandarin</option>
-	</select>
-	<!-- <select id="gender" data-placeholder="Gender ..." style="width:100px;" class="chosen-select form-control">
-	    <option value="m">Male</option>
-	    <option value="f" selected="selected">Female</option>
-	</select>
-	<select id="age" data-placeholder="Age Group ..." style="width:150px;" class="chosen-select form-control">
-	    <option value="0">less than 20</option>
-	    <option value="1" selected="selected">more than 20</option>
-	</select>
-	<select id="lang_age" data-placeholder="English speaking age ..." style="width:150px;" class="chosen-select form-control">
-	    <option value="0">less than 20</option>
-	    <option value="1" selected="selected">more than 20</option>
-	</select> -->
-	<button style="display:inline;" class="myButton" id="update">Diff</button>
-</div>
 
-<div>
-	<p class="sample-text">Please call Stella.  Ask her to bring these things with her from the store:  Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snack for her brother Bob.  We also need a small plastic snake and a big toy frog for the kids.  She can scoop these things into three red bags, and we will go meet her Wednesday at the train station.</p>
-	<a href="http://accent.gmu.edu">Data Source from speech accent archive</a>
-</div>
-</body>
-<script src="./bower_components/jquery/dist/jquery.min.js"></script>
-<script src="./bower_components/waveform-data/dist/waveform-data.min.js"></script>
-<script src="./bower_components/d3/d3.min.js"></script>
-<script src="chosen.jquery.min.js" type="text/javascript"></script>
-<script src="./viz.js"></script>
-<script src="./controls.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AccentDiff</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <!-- Le styles -->
+    <link href="bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="chosen.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+      blockquote {
+          padding-top: 20px;
+          overflow: hidden; /* clearfix alternative */
+          font-size: 18px;
+          line-height: 150%;
+          color: #454545;
+      }
+      blockquote:before {
+          display: block;
+          float: left;
+          margin: 10px 15px 0 0;
+          font-size: 100px; /* let's make it a big quote! */
+          content: open-quote; /* here we define our :before as a smart quote. It could be any content, even the HTML entity alternative to this opening quote, that is “ */
+          color: #bababa;
+          text-shadow: 0 1px 1px #909090;
+      }
+      blockquote:after {
+          display: block;
+          float: right;
+          margin: 10px 15px 0 0;
+          font-size: 100px;
+          content: close-quote;
+          color: #bababa;
+          text-shadow: 0 1px 1px #909090;
+          /* could be content:close-quote; but lets keep it clean*/
+      }
+
+    </style>
+    <link href="bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="images/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <a class="brand" href="#">AccentDiff</a>
+
+          <div class="nav-collapse collapse">
+            <!-- <p class="navbar-text pull-right">
+              Logged in as <a href="#" class="navbar-link">Username</a>
+            </p> -->
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+
+      <div class="row-fluid">
+    
+        <div class="span12">
+
+          <div class="hero-unit" style="text-align:center;">
+            <!-- <h1>AccentDiff</h1> -->
+            <h1><span style="color:#0400ff;">A</span><span style="color:#3619cc;">c</span><span style="color:#683399;">c</span><span style="color:#9b4c66;">e</span><span style="color:#cd6633;">n</span><span style="color:#ff7f00;">t</span><span style="color:#ff9f00;">D</span><span style="color:#ffbf00;">i</span><span style="color:#ffdf00;">f</span><span style="color:#ffff00;">f</span></h1>
+            <p>Differentiating English Accents For Native and Non-native English Speakers</p>
+            <blockquote>
+              <p>Please call Stella. Ask her to bring these things with her from the store: Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snack for her brother Bob. We also need a small plastic snake and a big toy frog for the kids. She can scoop these things into three red bags, and we will go meet her Wednesday at the train station.</p>
+            </blockquote>
+            <p><a href="http://accent.gmu.edu/index.php" class="btn btn-primary btn-large">Learn more about Data Source &raquo;</a></p>
+
+          </div>
+
+          <div class="row-fluid">
+
+            <div class="controls">
+              <div class="span5">
+                <select id="lang1" data-placeholder="Choose first native accent..." style="width:500px;" class="chosen-select form-control">
+                    <option value="english2">English</option>
+                    <option value="tamil2">Tamil</option>
+                    <option value="hindi2">Hindi</option>
+                    <option value="greek3">Greek</option>
+                    <option value="mandarin4">Mandarin</option>
+                </select>
+              </div>
+
+              <div class="span5">
+                <select id="lang2" data-placeholder="Choose second native accent..." style="width:500px;" class="chosen-select form-control">
+                  <div class="span6">
+                    <option value="english2">English</option>
+                    <option value="tamil2" selected="selected">Tamil</option>
+                    <option value="hindi2">Hindi</option>
+                    <option value="greek3">Greek</option>
+                    <option value="mandarin4">Mandarin</option>
+                  </div>
+                </select>
+              </div>
+
+              <!-- <select id="gender" data-placeholder="Gender ..." style="width:100px;" class="chosen-select form-control">
+                  <option value="m">Male</option>
+                  <option value="f" selected="selected">Female</option>
+              </select>
+              <select id="age" data-placeholder="Age Group ..." style="width:150px;" class="chosen-select form-control">
+                  <option value="0">less than 20</option>
+                  <option value="1" selected="selected">more than 20</option>
+              </select>
+              <select id="lang_age" data-placeholder="English speaking age ..." style="width:150px;" class="chosen-select form-control">
+                  <option value="0">less than 20</option>
+                  <option value="1" selected="selected">more than 20</option>
+              </select> -->
+              <div class="span2">
+                <button style="display:inline;" class="myButton" id="update">Diff</button>
+              </div>
+              
+            </div>
+          </div><!--/row-->
+
+        </div><!--/span-->
+      </div><!--/row-->
+
+
+      <hr>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap-transition.js"></script>
+    <script src="js/bootstrap-alert.js"></script>
+    <script src="js/bootstrap-modal.js"></script>
+    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="js/bootstrap-scrollspy.js"></script>
+    <script src="js/bootstrap-tab.js"></script>
+    <script src="js/bootstrap-tooltip.js"></script>
+    <script src="js/bootstrap-popover.js"></script>
+    <script src="js/bootstrap-button.js"></script>
+    <script src="js/bootstrap-collapse.js"></script>
+    <script src="js/bootstrap-carousel.js"></script>
+    <script src="js/bootstrap-typeahead.js"></script>
+
+    <script src="./bower_components/waveform-data/dist/waveform-data.min.js"></script>
+    <script src="./bower_components/d3/d3.min.js"></script>
+    <script src="chosen.jquery.min.js" type="text/javascript"></script>
+    <script src="./viz.js"></script>
+    <script src="./controls.js"></script>
+
+  </body>
+
+  <!-- <footer>
+    <p>&copy; 2014 by Xiadoan Zhang and Shubhanshu Mishra. Made for Course CS467 - Social Visualization</p>
+  </footer> -->
 </html>

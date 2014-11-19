@@ -28,6 +28,18 @@ background-color: steelblue;
 	opacity: 0.4;
 }
 
+audio{
+	width: 100%;
+}
+
+text {
+	font-size: 100%;
+}
+
+.hero-unit h1 {
+	font-size: 2em;
+}
+
 .base{
 fill: #dd3344;
 background-color: #dd3344;

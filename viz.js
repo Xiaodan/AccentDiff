@@ -1,9 +1,13 @@
-var width = 1024;
-var height = 300;
-var margin_x = 50;
-var margin_y = 50;
+var chartDiv = d3.select("#charts");
 
-var layout = d3.select("body").append("svg");
+var width = $("#charts").width();
+width = (width < 1024) ? width: 1024;
+var resize_factor = (width/1024);
+var height = 300 * resize_factor;
+var margin_x = 50 * resize_factor;
+var margin_y = 50 * resize_factor;
+
+var layout = chartDiv.append("svg");
 	layout.attr("width", width+2*margin_x)
 		.attr("height", height+2*margin_y)
 		.classed("waveform", true);
@@ -13,8 +17,8 @@ var y = null;
 
 var xAxis = null;
 var yAxis = null;
-var offsetX = 100;
-var barHeight = 50;
+var offsetX = 100 * resize_factor;
+var barHeight = 50 * resize_factor;
 
 function init (lang1_datafile, lang1_name, lang2_datafile, lang2_name) {
 	// body...
@@ -46,7 +50,7 @@ function init (lang1_datafile, lang1_name, lang2_datafile, lang2_name) {
 		    .call(yAxis);
 		    layout.append("text")      // text label for the x axis
 		        .attr("x", margin_x+(width/2.0) )
-		        .attr("y",  20)
+		        .attr("y",  20 * resize_factor)
 		        .style("text-anchor", "middle")
 		        .text("Time (milliseconds)");
 		    layout.append("text")      // text label for the x axis
@@ -74,9 +78,9 @@ function drawWaveForm(waveform, datafile, name, cssClass){
 	}
 	console.log(waveform.duration);
 	console.log(waveform);
-	var container = d3.select("body")
-		.append("div")
-		.classed("container", true).classed("span5", true);
+	var container = chartDiv.append("div")
+		.classed("container", true)
+		.classed("span5", true);
 	container.append("h3")
 		.classed("area", true)
 		.classed(cssClass, true)
